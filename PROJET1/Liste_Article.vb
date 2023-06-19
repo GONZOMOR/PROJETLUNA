@@ -1,15 +1,18 @@
 ﻿Public Class Liste_Article
     Public index As Integer
     Private Sub BtnModifier_Click(sender As Object, e As EventArgs) Handles btnModifier.Click
-        Dim form As Formulaire = getFrame()
-        form.Visible = False
-        form.ShowDialog()
-        setField(form)
+        Dim form As Formulaire = getFramebtnModifier()
     End Sub
 
     Private Function getFrame() As Formulaire
         Dim F As New Formulaire()
-        F.Visible = True
+        F.ShowDialog()
+        Return F
+    End Function
+    Private Function getFramebtnModifier() As Formulaire
+        Dim F As New Formulaire()
+        F.ShowDialog()
+        setField(F)
         Return F
     End Function
     Private Sub setField(fo As Formulaire)
@@ -24,8 +27,6 @@
 
     Private Sub BtnAjouter_Click(sender As Object, e As EventArgs) Handles btnAjouter.Click
         Dim form As Formulaire = getFrame()
-        form.Visible = False
-        form.ShowDialog()
         form.btnModifier.Enabled = False
     End Sub
 
