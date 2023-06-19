@@ -26,8 +26,10 @@
     End Sub
 
     Private Sub BtnAjouter_Click(sender As Object, e As EventArgs) Handles btnAjouter.Click
-        Dim form As Formulaire = getFrame()
-        form.btnModifier.Enabled = False
+        ''Dim form As Formulaire = getFrame()
+        ''form.btnModifier.Enabled = False
+        Dim f As Formulaire = Formulaire.getFrame()
+        f.Show()
     End Sub
 
     Private Sub Table_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles table.CellClick

@@ -258,6 +258,73 @@ Namespace LUNA
         End Sub
 #End Region
 
+        ' <summary>
+        ' Fonction publique qui exécute un SELECT en mode déconnecté avec la connexion déjà ouverte de cet objet dans un dataSet existant.
+        ' </summary>
+        ' <param name="text">Requête ou nom de la procédure stockée.</param>
+        ' <param name="type">Type Requête ou Procédure Stockée.</param>
+        ' <param name="myDataSet">DataSet dans lequel sera placé la DataTable résultante.</param>
+        ' <param name="tableName">Nom de la DataTable résultante.</param>
+        ' <param name="startIndex">Index de la première ligne à retourner.</param>
+        ' <param name="nbLines">Nombre de ligne à retourner</param>
+        ' <returns>Un datatable contenant les données. null sinon</returns>
+        Public Shared Function execSelect(ByVal text As String, ByVal type As CommandType, ByVal myDataSet As DataSet, ByVal tableName As String, ByVal startIndex As Integer, ByVal nbLines As Integer, ByVal cn As SqlConnection) As DataTable
+
+
+            Dim myDataAdapter As SqlDataAdapter = New SqlDataAdapter(text, cn)
+
+            ' Définition du type
+            myDataAdapter.SelectCommand.CommandType = type
+            myDataAdapter.SelectCommand.CommandTimeout = 0
+            If Not DbTransaction Is Nothing Then myDataAdapter.SelectCommand.Transaction = DbTransaction
+
+            ' Exécution du SELECT
+            If (myDataSet Is Nothing) Then
+                myDataSet = New DataSet()
+            End If
+
+            If (startIndex > -1 And nbLines <> 0) Then
+
+                If (String.IsNullOrEmpty(tableName)) Then
+                    tableName = "Table"
+                End If
+                myDataAdapter.Fill(myDataSet, startIndex, nbLines, tableName)
+
+                If (myDataSet.Tables.IndexOf(tableName) <> -1) Then
+                    Return myDataSet.Tables(tableName)
+                Else
+                    Return New DataTable
+                End If
+
+
+
+            ElseIf (Not String.IsNullOrEmpty(tableName)) Then
+
+                myDataAdapter.Fill(myDataSet, tableName)
+
+                'Retour
+                If (myDataSet.Tables.IndexOf(tableName) <> -1) Then
+                    Return myDataSet.Tables(tableName)
+                Else
+                    Return New DataTable
+                End If
+
+
+            Else
+
+                myDataAdapter.Fill(myDataSet)
+
+                'Retour
+                If (myDataSet.Tables(0).Columns.Count <> 0) Then
+                    Return myDataSet.Tables(0)
+                Else
+                    Return New DataTable
+                End If
+
+            End If
+        End Function
+
+
     End Class
 
     Public Class LunaSearchParameter

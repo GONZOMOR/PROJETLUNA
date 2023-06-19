@@ -9,6 +9,7 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Data.OleDb
 
 Partial Public Class Gcm_article
     Inherits LUNA.LunaBaseClassEntity
@@ -352,7 +353,7 @@ Partial Public Class Gcm_articleDAO
         Dim Ls As New List(Of Gcm_article)
         Try
 
-            Dim sql As String = "
+            Dim sql As String = ""
 sql ="SELECT code," & _
 	"désignation," & _
 	"prix," & _
@@ -380,8 +381,8 @@ Public Overrides Function GetAll(Optional OrderByField as string = "", Optional 
 Dim Ls As New List(Of Gcm_article)
 Try
 
-Dim sql As String = "
-sql = "SELECT code," &
+            Dim sql As String = ""
+            sql = "SELECT code," &
     "désignation," &
     "prix," &
     "date_creation," &
