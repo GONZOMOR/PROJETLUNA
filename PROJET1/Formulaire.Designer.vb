@@ -22,30 +22,17 @@ Partial Class Formulaire
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblId = New System.Windows.Forms.Label()
         Me.lblCode = New System.Windows.Forms.Label()
         Me.lblDesignation = New System.Windows.Forms.Label()
         Me.lblPrix = New System.Windows.Forms.Label()
         Me.lblDateCreation = New System.Windows.Forms.Label()
         Me.lblFormulaire = New System.Windows.Forms.Label()
-        Me.txtID = New System.Windows.Forms.TextBox()
         Me.txtCode = New System.Windows.Forms.TextBox()
         Me.txtDesignation = New System.Windows.Forms.TextBox()
         Me.txtPrix = New System.Windows.Forms.TextBox()
-        Me.btnAjouter = New System.Windows.Forms.Button()
-        Me.btnModifier = New System.Windows.Forms.Button()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
-        '
-        'lblId
-        '
-        Me.lblId.AutoSize = True
-        Me.lblId.Font = New System.Drawing.Font("Times New Roman", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblId.Location = New System.Drawing.Point(38, 60)
-        Me.lblId.Name = "lblId"
-        Me.lblId.Size = New System.Drawing.Size(49, 36)
-        Me.lblId.TabIndex = 0
-        Me.lblId.Text = "ID"
         '
         'lblCode
         '
@@ -98,14 +85,6 @@ Partial Class Formulaire
         Me.lblFormulaire.TabIndex = 0
         Me.lblFormulaire.Text = "FORMULAIRE"
         '
-        'txtID
-        '
-        Me.txtID.Font = New System.Drawing.Font("Microsoft Sans Serif", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtID.Location = New System.Drawing.Point(308, 60)
-        Me.txtID.Name = "txtID"
-        Me.txtID.Size = New System.Drawing.Size(438, 40)
-        Me.txtID.TabIndex = 1
-        '
         'txtCode
         '
         Me.txtCode.Font = New System.Drawing.Font("Microsoft Sans Serif", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -130,26 +109,6 @@ Partial Class Formulaire
         Me.txtPrix.Size = New System.Drawing.Size(438, 40)
         Me.txtPrix.TabIndex = 1
         '
-        'btnAjouter
-        '
-        Me.btnAjouter.Font = New System.Drawing.Font("Times New Roman", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAjouter.Location = New System.Drawing.Point(191, 355)
-        Me.btnAjouter.Name = "btnAjouter"
-        Me.btnAjouter.Size = New System.Drawing.Size(151, 39)
-        Me.btnAjouter.TabIndex = 2
-        Me.btnAjouter.Text = "Ajouter"
-        Me.btnAjouter.UseVisualStyleBackColor = True
-        '
-        'btnModifier
-        '
-        Me.btnModifier.Font = New System.Drawing.Font("Times New Roman", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnModifier.Location = New System.Drawing.Point(445, 355)
-        Me.btnModifier.Name = "btnModifier"
-        Me.btnModifier.Size = New System.Drawing.Size(151, 39)
-        Me.btnModifier.TabIndex = 2
-        Me.btnModifier.Text = "Modifier"
-        Me.btnModifier.UseVisualStyleBackColor = True
-        '
         'DateTimePicker1
         '
         Me.DateTimePicker1.Font = New System.Drawing.Font("Microsoft Sans Serif", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -158,25 +117,33 @@ Partial Class Formulaire
         Me.DateTimePicker1.Size = New System.Drawing.Size(438, 40)
         Me.DateTimePicker1.TabIndex = 3
         '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.Aquamarine
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(406, 355)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(146, 58)
+        Me.Button1.TabIndex = 4
+        Me.Button1.Text = "Valider"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
         'Formulaire
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(792, 446)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.DateTimePicker1)
-        Me.Controls.Add(Me.btnModifier)
-        Me.Controls.Add(Me.btnAjouter)
         Me.Controls.Add(Me.txtPrix)
         Me.Controls.Add(Me.txtDesignation)
         Me.Controls.Add(Me.txtCode)
-        Me.Controls.Add(Me.txtID)
         Me.Controls.Add(Me.lblFormulaire)
         Me.Controls.Add(Me.lblDateCreation)
         Me.Controls.Add(Me.lblPrix)
         Me.Controls.Add(Me.lblDesignation)
         Me.Controls.Add(Me.lblCode)
-        Me.Controls.Add(Me.lblId)
         Me.Name = "Formulaire"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Formulaire"
@@ -184,18 +151,14 @@ Partial Class Formulaire
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents lblId As Label
     Friend WithEvents lblCode As Label
     Friend WithEvents lblDesignation As Label
     Friend WithEvents lblPrix As Label
     Friend WithEvents lblDateCreation As Label
     Friend WithEvents lblFormulaire As Label
-    Friend WithEvents txtID As TextBox
     Friend WithEvents txtCode As TextBox
     Friend WithEvents txtDesignation As TextBox
     Friend WithEvents txtPrix As TextBox
-    Friend WithEvents btnAjouter As Button
-    Friend WithEvents btnModifier As Button
     Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents Button1 As Button
 End Class
