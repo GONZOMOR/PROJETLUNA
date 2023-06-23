@@ -39,10 +39,10 @@ Public Class Formulaire
 
             Me.Text = "Article : [" & txtCode.Text & "] " & txtDesignation.Text
 
-            txtCode.Text = modele.code
-            txtDesignation.Text = modele.désignation
+            txtCode.Text = modele.Code
+            txtDesignation.Text = modele.designation
             txtPrix.Text = modele.prix
-            DateTimePicker1.Text = modele.date_creation
+            DateTimePicker1.Text = modele.datecreation
 
 
             'loadGrid(modele.code)
@@ -89,12 +89,13 @@ Public Class Formulaire
     Public Function valide()
         Try
             _Article.code = txtCode.Text.Trim
-            _Article.désignation = txtDesignation.Text.Trim
+            _Article.designation = txtDesignation.Text.Trim
             _Article.prix = txtPrix.Text.Trim
-            _Article.date_creation = DateTimePicker1.Text.Trim
+            _Article.datecreation = DateTimePicker1.Text.Trim
 
             Try
                 Dim connexionString As String = File.ReadAllLines("config.ini")(0)
+                LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
                 Dim cn As New SqlConnection(connexionString)
                 LUNA.LunaContext.Connection = cn
                 cn.Open()
@@ -102,7 +103,7 @@ Public Class Formulaire
                 cn.Close()
 
             Catch ex As Exception
-
+                MessageBox.Show(ex.ToString())
             End Try
             If _Article.Save() < 1 Then
                 MsgBox("Echec de l'opération de validation!", 1)
@@ -112,7 +113,7 @@ Public Class Formulaire
 
             End If
         Catch ex As Exception
-
+            MessageBox.Show(ex.ToString())
         End Try
     End Function
 
