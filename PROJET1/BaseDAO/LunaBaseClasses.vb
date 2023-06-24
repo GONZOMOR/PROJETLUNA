@@ -18,6 +18,22 @@ Namespace LUNA
     End Enum
 
     Public Class LunaContext
+        Public Shared Property DateFormat() As String
+            Get
+                Return DbDateFormat
+            End Get
+            Set(ByVal value As String)
+                DbDateFormat = value
+            End Set
+        End Property
+        Public Shared Property ConnexionString() As String
+            Get
+                Return ChaineConnexion
+            End Get
+            Set(ByVal value As String)
+                ChaineConnexion = value
+            End Set
+        End Property
         Public Shared Property Connection As Data.IDbConnection
             Get
                 Return DbConnection

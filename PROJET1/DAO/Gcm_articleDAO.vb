@@ -1,7 +1,7 @@
 ﻿#Region "Author"
 'Class created with Luna 3.4.0.0
 'Author: Diego Lunadei
-'Date: 18/06/2023
+'Date: 23/06/2023
 #End Region
 
 Imports System
@@ -22,14 +22,29 @@ Partial Public Class Gcm_article
 
 #Region "Database Field Map"
 
-    Protected _code As Integer = 0
+    Protected _id As Integer = 0
+
+    <XmlElementAttribute("id")>
+    Public Property id() As Integer
+        Get
+            Return _id
+        End Get
+        Set(ByVal value As Integer)
+            If _id <> value Then
+                IsChanged = True
+                _id = value
+            End If
+        End Set
+    End Property
+
+    Protected _code As String = ""
 
     <XmlElementAttribute("code")>
-    Public Property code() As Integer
+    Public Property code() As String
         Get
             Return _code
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             If _code <> value Then
                 IsChanged = True
                 _code = value
@@ -81,21 +96,6 @@ Partial Public Class Gcm_article
             End If
         End Set
     End Property
-
-    Protected _id As Integer = 0
-
-    <XmlElementAttribute("id")>
-    Public Property id() As Integer
-        Get
-            Return _id
-        End Get
-        Set(ByVal value As Integer)
-            If _id <> value Then
-                IsChanged = True
-                _id = value
-            End If
-        End Set
-    End Property
 #End Region
 
 #Region "Method"
@@ -111,11 +111,11 @@ Partial Public Class Gcm_article
         Try
             Dim Mgr As New Gcm_articleDAO
             Dim int As Gcm_article = Mgr.Read(Id)
+            _id = int.id
             _code = int.code
             _désignation = int.désignation
             _prix = int.prix
             _date_creation = int.date_creation
-            _id = int.id
         Catch ex As Exception
             ManageError(ex)
             Ris = 1
@@ -199,16 +199,24 @@ Partial Public Class Gcm_articleDAO
 
         Try
             Dim myCommand As SqlCommand = _cn.CreateCommand()
-            myCommand.CommandText = "SELECT * FROM Gcm_article where code = " & Id
+            myCommand.CommandText = "SELECT * FROM Gcm_article where id = " & Id
             If Not DbTransaction Is Nothing Then myCommand.Transaction = DbTransaction
             Dim myReader As SqlDataReader = myCommand.ExecuteReader()
             myReader.Read()
             If myReader.HasRows Then
-                cls.code = myReader("code")
-                cls.désignation = myReader("désignation")
-                cls.prix = myReader("prix")
-                cls.date_creation = myReader("date_creation")
                 cls.id = myReader("id")
+                If Not myReader("code") Is DBNull.Value Then
+                    cls.code = myReader("code")
+                End If
+                If Not myReader("désignation") Is DBNull.Value Then
+                    cls.désignation = myReader("désignation")
+                End If
+                If Not myReader("prix") Is DBNull.Value Then
+                    cls.prix = myReader("prix")
+                End If
+                If Not myReader("date_creation") Is DBNull.Value Then
+                    cls.date_creation = myReader("date_creation")
+                End If
             End If
             myReader.Close()
             myCommand.Dispose()
@@ -235,28 +243,25 @@ Partial Public Class Gcm_articleDAO
                 Dim sql As String
                 DbCommand.Connection = _cn
                 If Not DbTransaction Is Nothing Then DbCommand.Transaction = DbTransaction
-                If cls.code = 0 Then
+                If cls.id = 0 Then
                     sql = "INSERT INTO Gcm_article("
                     sql &= "code,"
                     sql &= "désignation,"
                     sql &= "prix,"
-                    sql &= "date_creation,"
-                    sql &= "id"
+                    sql &= "date_creation"
                     sql &= ") VALUES ("
                     sql &= "@code,"
                     sql &= "@désignation,"
                     sql &= "@prix,"
-                    sql &= "@date_creation,"
-                    sql &= "@id"
+                    sql &= "@date_creation"
                     sql &= ")"
                 Else
                     sql = "UPDATE Gcm_article SET "
                     sql &= "code = @code,"
                     sql &= "désignation = @désignation,"
                     sql &= "prix = @prix,"
-                    sql &= "date_creation = @date_creation,"
-                    sql &= "id = @id"
-                    sql &= " WHERE code= " & cls.code
+                    sql &= "date_creation = @date_creation"
+                    sql &= " WHERE id= " & cls.id
                 End If
                 DbCommand.CommandText = sql
                 Dim NomePar As String = String.Empty
@@ -277,19 +282,26 @@ Partial Public Class Gcm_articleDAO
                     ValuePar = "null"
                 End If
                 DbCommand.Parameters.AddWithValue(NomePar, ValuePar)
-                NomePar = "@id"
-                ValuePar = cls.id
-                DbCommand.Parameters.AddWithValue(NomePar, ValuePar)
                 DbCommand.ExecuteNonQuery()
 
-                Ris = cls.code
+                If cls.id = 0 Then
+                    Dim IdInserito As Integer = 0
+                    sql = "select @@identity"
+                    DbCommand.CommandText = sql
+                    IdInserito = DbCommand.ExecuteScalar()
+                    cls.id = IdInserito
+                    Ris = IdInserito
+                Else
+                    Ris = cls.id
+                End If
+
                 DbCommand.Dispose()
 
             Catch ex As Exception
                 ManageError(ex)
             End Try
         Else
-            Ris = cls.code
+            Ris = cls.id
         End If
 
         Return Ris
@@ -305,7 +317,7 @@ Partial Public Class Gcm_articleDAO
             '******Replace DELETED Field with your logic deleted field name.
             'Dim Sql As String = "UPDATE Gcm_article SET DELETED=True "
             Dim Sql As String = "DELETE FROM Gcm_article"
-            Sql &= " Where code = " & Id
+            Sql &= " Where id = " & Id
 
             UpdateCommand.CommandText = Sql
             If Not DbTransaction Is Nothing Then UpdateCommand.Transaction = DbTransaction
@@ -336,7 +348,7 @@ Partial Public Class Gcm_articleDAO
     ''' </returns>
     Public Overrides Sub Delete(ByRef obj As Gcm_article, Optional ByRef ListaObj As List(Of Gcm_article) = Nothing)
 
-        DestroyPermanently(obj.code)
+        DestroyPermanently(obj.id)
         If Not ListaObj Is Nothing Then ListaObj.Remove(obj)
 
     End Sub
@@ -354,11 +366,11 @@ Partial Public Class Gcm_articleDAO
         Try
 
             Dim sql As String = ""
-sql ="SELECT code," & _
+sql ="SELECT id," & _
+	"code," & _
 	"désignation," & _
 	"prix," & _
-	"date_creation," & _
-	"id"
+	"date_creation"
 sql &=" from Gcm_article" 
 For Each Par As LUNA.LunaSearchParameter In Parameter
 	If Not Par Is Nothing Then
@@ -382,11 +394,11 @@ Dim Ls As New List(Of Gcm_article)
 Try
 
             Dim sql As String = ""
-            sql = "SELECT code," &
+            sql = "SELECT id," &
+    "code," &
     "désignation," &
     "prix," &
-    "date_creation," &
-    "id"
+    "date_creation"
             sql &= " from Gcm_article"
             If OrderByField.Length Then
                 sql &= " ORDER BY " & OrderByField
@@ -406,14 +418,14 @@ Try
             myCommand.CommandText = sql
             If Not DbTransaction Is Nothing Then myCommand.Transaction = DbTransaction
             Dim myReader As SqlDataReader = myCommand.ExecuteReader()
-            If AddEmptyItem Then Ls.Add(New Gcm_article() With {.code = 0, .désignation = "", .prix = 0, .date_creation = Nothing, .id = 0})
+            If AddEmptyItem Then Ls.Add(New Gcm_article() With {.id = 0, .code = "", .désignation = "", .prix = 0, .date_creation = Nothing})
             While myReader.Read
                 Dim classe As New Gcm_article
+                If Not myReader("id") Is DBNull.Value Then classe.id = myReader("id")
                 If Not myReader("code") Is DBNull.Value Then classe.code = myReader("code")
                 If Not myReader("désignation") Is DBNull.Value Then classe.désignation = myReader("désignation")
                 If Not myReader("prix") Is DBNull.Value Then classe.prix = myReader("prix")
                 If Not myReader("date_creation") Is DBNull.Value Then classe.date_creation = myReader("date_creation")
-                If Not myReader("id") Is DBNull.Value Then classe.id = myReader("id")
                 Ls.Add(classe)
             End While
             myReader.Close()
