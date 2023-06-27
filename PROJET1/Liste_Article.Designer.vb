@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Liste_Article
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,55 +20,23 @@ Partial Class Liste_Article
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.table = New System.Windows.Forms.DataGridView()
-        Me.Code = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Désignation = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Prix = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Date_création = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.id = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnAjouter = New System.Windows.Forms.Button()
         Me.btnModifier = New System.Windows.Forms.Button()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.btnSupprimer = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.table, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'table
         '
         Me.table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.table.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Code, Me.Désignation, Me.Prix, Me.Date_création, Me.id})
         Me.table.Location = New System.Drawing.Point(1, 91)
         Me.table.Name = "table"
         Me.table.Size = New System.Drawing.Size(544, 190)
         Me.table.TabIndex = 0
-        '
-        'Code
-        '
-        Me.Code.HeaderText = "Code"
-        Me.Code.Name = "Code"
-        '
-        'Désignation
-        '
-        Me.Désignation.HeaderText = "Désignation"
-        Me.Désignation.Name = "Désignation"
-        '
-        'Prix
-        '
-        Me.Prix.HeaderText = "Prix"
-        Me.Prix.Name = "Prix"
-        '
-        'Date_création
-        '
-        Me.Date_création.HeaderText = "Date de création"
-        Me.Date_création.Name = "Date_création"
-        '
-        'id
-        '
-        Me.id.HeaderText = "ID"
-        Me.id.Name = "id"
         '
         'btnAjouter
         '
@@ -108,21 +76,11 @@ Partial Class Liste_Article
         Me.btnSupprimer.Text = "Supprimer"
         Me.btnSupprimer.UseVisualStyleBackColor = True
         '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(300, 364)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 4
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'Liste_Article
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(547, 412)
-        Me.Controls.Add(Me.Button1)
+        Me.ClientSize = New System.Drawing.Size(547, 375)
         Me.Controls.Add(Me.btnSupprimer)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.btnModifier)
@@ -137,14 +95,8 @@ Partial Class Liste_Article
     End Sub
 
     Friend WithEvents table As DataGridView
-    Friend WithEvents Code As DataGridViewTextBoxColumn
-    Friend WithEvents Désignation As DataGridViewTextBoxColumn
-    Friend WithEvents Prix As DataGridViewTextBoxColumn
-    Friend WithEvents Date_création As DataGridViewTextBoxColumn
-    Friend WithEvents id As DataGridViewTextBoxColumn
     Friend WithEvents btnAjouter As Button
     Friend WithEvents btnModifier As Button
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents btnSupprimer As Button
-    Friend WithEvents Button1 As Button
 End Class

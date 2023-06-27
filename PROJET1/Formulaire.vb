@@ -4,7 +4,7 @@ Imports System.IO
 Public Class Formulaire
 
     Dim liste() As Char = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
-    Dim _Article As New Gcm_article
+    Public _Article As New Gcm_article
     Dim cn_serveurCentrale As SqlConnection
 
 
@@ -83,8 +83,10 @@ Public Class Formulaire
                 cn.Open()
                 Save(_Article)
                 cn.Close()
-                Liste_Article.table.Rows.Add(txtCode.Text, txtDesignation.Text, txtPrix.Text, DateTimePicker1.Value, _Article.id)
+                'Liste_Article.table.DataSource.Rows.Add(_Article.id.ToString(), txtCode.Text, txtDesignation.Text, txtPrix.Text, DateTimePicker1.Value)
+                Liste_Article.Load()
                 Me.Close()
+
             Catch ex As Exception
                 MessageBox.Show(ex.ToString())
             End Try
@@ -126,5 +128,9 @@ Public Class Formulaire
         If Not liste.Contains(e.KeyChar) And Not Asc(e.KeyChar) = 8 Then
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub Formulaire_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        setField(_Article)
     End Sub
 End Class

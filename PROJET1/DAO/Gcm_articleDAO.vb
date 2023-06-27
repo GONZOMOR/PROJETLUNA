@@ -296,7 +296,6 @@ Partial Public Class Gcm_articleDAO
                 End If
 
                 DbCommand.Dispose()
-
             Catch ex As Exception
                 ManageError(ex)
             End Try
@@ -430,7 +429,6 @@ Try
             End While
             myReader.Close()
             myCommand.Dispose()
-
         Catch ex As Exception
             ManageError(ex)
         End Try

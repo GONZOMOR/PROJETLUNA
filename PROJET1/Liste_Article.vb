@@ -2,25 +2,16 @@
 Imports System.Data.DataTable
 Imports System.IO
 Public Class Liste_Article
-    Public index As Integer
+    Dim _Article As New Gcm_article
+    Public index As Integer = -1
     Private Sub BtnModifier_Click(sender As Object, e As EventArgs) Handles btnModifier.Click
-        index = table.CurrentCell.RowIndex
-        Dim selectedRow As DataGridViewRow = table.Rows(index)
-        Dim str As String = selectedRow.Cells(4).Value.ToString()
-        Dim F As New Formulaire(str)
+        Dim F As New Formulaire(, table)
+        F._Article = _Article
+        F.ShowDialog()
+        If index < 0 Then
+            MessageBox.Show("Veuillez selectionner la ligne que vous voulez modifier!")
+        End If
     End Sub
-
-    Private Function getFrame() As Formulaire
-        Dim F As New Formulaire()
-        F.ShowDialog()
-        Return F
-    End Function
-    Private Function getFramebtnModifier() As Formulaire
-        Dim F As New Formulaire()
-        F.ShowDialog()
-        setField(F)
-        Return F
-    End Function
     Private Sub setField(fo As Formulaire)
         index = table.CurrentCell.RowIndex
         Dim selectedRow As DataGridViewRow = table.Rows(index)
@@ -36,10 +27,12 @@ Public Class Liste_Article
     End Sub
 
     Private Sub Table_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles table.CellClick
-        'getFrame()
-        'setField(e)
+        index = table.CurrentCell.RowIndex
+        Dim selectedRow As DataGridViewRow = table.Rows(index)
+        _Article = getArticle(Int(selectedRow.Cells(0).Value))
+        'MessageBox.Show(_Article.id.ToString())
     End Sub
-    Private Sub loadGrid()
+    Public Sub loadGrid()
         Try
             Dim connexionString As String = File.ReadAllLines("config.ini")(0)
             LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
@@ -47,13 +40,64 @@ Public Class Liste_Article
             LUNA.LunaContext.Connection = cn
             cn.Open()
             table.DataSource = GetAll()
-            cn.Close()
+            'cn.Close()
         Catch ex As Exception
             MessageBox.Show(ex.ToString())
         End Try
     End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs)
         loadGrid()
+    End Sub
+
+    Private Sub BtnSupprimer_Click(sender As Object, e As EventArgs) Handles btnSupprimer.Click
+        If index < 0 Then
+            MessageBox.Show("Veuillez selectionner la ligne que vous voulez supprimer!")
+        Else
+            Try
+                Dim connexionString As String = File.ReadAllLines("config.ini")(0)
+                LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
+                Dim cn As New SqlConnection(connexionString)
+                LUNA.LunaContext.Connection = cn
+                cn.Open()
+                Delete(_Article)
+                'cn.Close()
+                table.Rows.RemoveAt(index)
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString())
+            End Try
+
+        End If
+    End Sub
+    Private Sub Liste_Article_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        loadGrid()
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+        Try
+            Dim connexionString As String = File.ReadAllLines("config.ini")(0)
+            LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
+            Dim cn As New SqlConnection(connexionString)
+            LUNA.LunaContext.Connection = cn
+            cn.Open()
+            GetAllArticle("WHERE code LIKE '% " & TextBox1.Text & " %'")
+            'cn.Close()
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+        'TryCast(table.DataSource, DataTable).DefaultView.RowFilter =
+        '    String.Format("Code LIKE '" & TextBox1.Text & " %'")
+    End Sub
+    Public Sub load()
+        Try
+            Dim connexionString As String = File.ReadAllLines("config.ini")(0)
+            LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
+            Dim cn As New SqlConnection(connexionString)
+            LUNA.LunaContext.Connection = cn
+            cn.Open()
+            table.DataSource = GetLoad()
+            'cn.Close()
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
     End Sub
 End Class
