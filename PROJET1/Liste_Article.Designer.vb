@@ -32,6 +32,10 @@ Partial Class Liste_Article
         '
         'table
         '
+        Me.table.AllowUserToAddRows = False
+        Me.table.AllowUserToDeleteRows = False
+        Me.table.AllowUserToResizeColumns = False
+        Me.table.AllowUserToResizeRows = False
         Me.table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.table.Location = New System.Drawing.Point(1, 91)
         Me.table.Name = "table"

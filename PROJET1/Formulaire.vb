@@ -43,10 +43,6 @@ Public Class Formulaire
             txtDesignation.Text = modele.désignation
             txtPrix.Text = modele.prix
             DateTimePicker1.Text = modele.date_creation
-
-
-            'loadGrid(modele.code)
-
             txtCode.Enabled = False
 
         Else
@@ -84,7 +80,7 @@ Public Class Formulaire
                 Save(_Article)
                 cn.Close()
                 'Liste_Article.table.DataSource.Rows.Add(_Article.id.ToString(), txtCode.Text, txtDesignation.Text, txtPrix.Text, DateTimePicker1.Value)
-                Liste_Article.Load()
+                Liste_Article.load()
                 Me.Close()
 
             Catch ex As Exception

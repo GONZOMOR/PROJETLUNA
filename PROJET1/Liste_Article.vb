@@ -61,7 +61,7 @@ Public Class Liste_Article
                 cn.Open()
                 Delete(_Article)
                 'cn.Close()
-                table.Rows.RemoveAt(index)
+                load()
             Catch ex As Exception
                 MessageBox.Show(ex.ToString())
             End Try
@@ -74,12 +74,13 @@ Public Class Liste_Article
 
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
         Try
+            Dim clause As String = "WHERE code LIKE '%" & TextBox1.Text & "%'"
             Dim connexionString As String = File.ReadAllLines("config.ini")(0)
             LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
             Dim cn As New SqlConnection(connexionString)
             LUNA.LunaContext.Connection = cn
             cn.Open()
-            GetAllArticle("WHERE code LIKE '% " & TextBox1.Text & " %'")
+            table.DataSource = GetAllArticle(clause)
             'cn.Close()
         Catch ex As Exception
             MessageBox.Show(ex.ToString())
