@@ -64,38 +64,40 @@ Public Class Formulaire
         ElseIf txtPrix.Text = "" Then
             MessageBox.Show("Veuillez remplir le champ prix")
             txtPrix.Focus()
-        End If
-        Try
-            _Article.code = txtCode.Text.Trim
-            _Article.désignation = txtDesignation.Text.Trim
-            _Article.prix = txtPrix.Text.Trim
-            _Article.date_creation = DateTimePicker1.Text.Trim
-
+        Else
             Try
-                Dim connexionString As String = File.ReadAllLines("config.ini")(0)
-                LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
-                Dim cn As New SqlConnection(connexionString)
-                LUNA.LunaContext.Connection = cn
-                cn.Open()
-                Save(_Article)
-                cn.Close()
-                'Liste_Article.table.DataSource.Rows.Add(_Article.id.ToString(), txtCode.Text, txtDesignation.Text, txtPrix.Text, DateTimePicker1.Value)
-                Liste_Article.load()
-                Me.Close()
+                _Article.code = txtCode.Text.Trim
+                _Article.désignation = txtDesignation.Text.Trim
+                _Article.prix = txtPrix.Text.Trim
+                _Article.date_creation = DateTimePicker1.Text.Trim
 
+                Try
+                    Dim connexionString As String = File.ReadAllLines("config.ini")(0)
+                    LUNA.LunaContext.DateFormat = File.ReadAllLines("config.ini")(2)
+                    Dim cn As New SqlConnection(connexionString)
+                    LUNA.LunaContext.Connection = cn
+                    cn.Open()
+                    Save(_Article)
+                    cn.Close()
+                    'Liste_Article.table.DataSource.Rows.Add(_Article.id.ToString(), txtCode.Text, txtDesignation.Text, txtPrix.Text, DateTimePicker1.Value)
+                    Liste_Article.load()
+                    Me.Close()
+
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString())
+                End Try
+                'If _Article.Save() < 1 Then
+                '    MsgBox("Echec de l'opération de validation!", 1)
+                '    Return
+                'Else
+                '    Me.Close()
+
+                'End If
             Catch ex As Exception
                 MessageBox.Show(ex.ToString())
             End Try
-            'If _Article.Save() < 1 Then
-            '    MsgBox("Echec de l'opération de validation!", 1)
-            '    Return
-            'Else
-            '    Me.Close()
+        End If
 
-            'End If
-        Catch ex As Exception
-            MessageBox.Show(ex.ToString())
-        End Try
     End Sub
     Private Function getFrame() As Liste_Article
         Dim F As New Liste_Article()

@@ -5,11 +5,12 @@ Public Class Liste_Article
     Dim _Article As New Gcm_article
     Public index As Integer = -1
     Private Sub BtnModifier_Click(sender As Object, e As EventArgs) Handles btnModifier.Click
-        Dim F As New Formulaire(, table)
-        F._Article = _Article
-        F.ShowDialog()
         If index < 0 Then
             MessageBox.Show("Veuillez selectionner la ligne que vous voulez modifier!")
+        Else
+            Dim F As New Formulaire(, table)
+            F._Article = _Article
+            F.ShowDialog()
         End If
     End Sub
     Private Sub setField(fo As Formulaire)
